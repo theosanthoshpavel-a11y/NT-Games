@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signs of the Kingdom · Unit 5: The Theology of the New Testament</title>
+<style>
+:root{--bg:#eef5ef;--card:#ffffff;--ink:#1f3326;--accent:#2f7a4b;--accent2:#b8860b;--soft:#dcebdf;
+--ok:#1e7b45;--okbg:#e3f4ea;--bad:#a8322d;--badbg:#fbe7e5;--mid:#8a6a00;--midbg:#fff4d6;--muted:#6b6b6b;--line:rgba(0,0,0,.12)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:Georgia, "Times New Roman", serif;line-height:1.25;margin:.2em 0 .4em}
+a{color:var(--accent)}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+header.top{background:var(--accent);color:#fff}
+header.top .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+header.top a{color:#fff;text-decoration:none;font-weight:600;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:6px 14px}
+header.top a:hover,header.top a:focus{background:rgba(255,255,255,.15)}
+.brand{font-family:Georgia, "Times New Roman", serif;font-size:1.15rem;font-weight:700}
+.brand small{display:block;font-family:inherit;font-weight:400;font-size:.8rem;opacity:.9}
+.hud{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:14px 0 6px;font-weight:600}
+.bar{flex:1 1 220px;height:12px;background:var(--soft);border-radius:999px;overflow:hidden;min-width:160px}
+.bar span{display:block;height:100%;width:0;background:var(--accent2);transition:width .3s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin:12px 0}
+.tag{display:inline-block;background:var(--soft);color:var(--accent);font-weight:700;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:4px 12px}
+.src{color:var(--muted);font-size:.85rem;margin-top:-4px}
+.prompt{font-size:1.05rem;margin:12px 0 16px}
+.btn{font:inherit;font-weight:600;border:2px solid var(--accent);background:var(--accent);color:#fff;border-radius:10px;padding:10px 18px;cursor:pointer;min-height:44px}
+.btn.secondary{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.opt:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,.mv:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;text-align:left;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;color:var(--ink);min-height:44px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.correct{background:var(--okbg);border-color:var(--ok)}
+.opt.wrong{background:var(--badbg);border-color:var(--bad)}
+.opt.picked{box-shadow:inset 0 0 0 2px var(--accent2)}
+.opt:disabled{cursor:default}
+.fb{margin-top:16px;border-radius:12px;padding:14px 16px;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--okbg);border-left:6px solid var(--ok)}
+.fb.bad{background:var(--badbg);border-left:6px solid var(--bad)}
+.fb.mid{background:var(--midbg);border-left:6px solid var(--mid)}
+.fb strong{display:block;margin-bottom:4px}
+ol.seq{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+ol.seq li{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px 10px;cursor:grab}
+ol.seq li.dragging{opacity:.5}
+ol.seq li.correct{border-color:var(--ok);background:var(--okbg)}
+ol.seq li.wrong{border-color:var(--bad);background:var(--badbg)}
+.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700}
+.seqtext{flex:1}
+.mv{font:inherit;border:1px solid var(--line);background:#fff;border-radius:8px;width:40px;height:40px;cursor:pointer;color:var(--ink)}
+.mv:disabled{opacity:.3}
+.rows{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:10px;align-items:center;background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.row.correct{border-color:var(--ok);background:var(--okbg)}
+.row.wrong{border-color:var(--bad);background:var(--badbg)}
+.row .lbl{font-weight:600}
+.row .fix{grid-column:1/-1;font-size:.9rem;color:var(--bad)}
+select,input[type=text],textarea{font:inherit;width:100%;border:2px solid var(--line);border-radius:10px;padding:9px 10px;background:#fff;color:var(--ink)}
+textarea{min-height:150px;resize:vertical}
+.build{display:grid;gap:0}
+.slot{position:relative;background:#fff;border:2px dashed var(--accent);border-radius:14px;padding:12px;display:grid;grid-template-columns:minmax(120px,30%) 1fr;gap:10px;align-items:center}
+.slot+.slot{margin-top:22px}
+.slot+.slot::before{content:"▼";position:absolute;top:-22px;left:24px;color:var(--accent);font-size:.9rem}
+.slot.correct{border-style:solid;border-color:var(--ok);background:var(--okbg)}
+.slot.wrong{border-style:solid;border-color:var(--bad);background:var(--badbg)}
+.slot .lbl{font-family:Georgia, "Times New Roman", serif;font-weight:700;color:var(--accent)}
+.slot .fix{grid-column:1/-1;font-size:.9rem;color:var(--bad)}
+.choice-note{font-size:.95rem;margin-top:6px}
+.notice{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:.92rem;margin-bottom:12px}
+.hint{color:var(--accent2);font-style:italic;margin-top:8px}
+.wc{color:var(--muted);font-size:.85rem;margin-top:6px}
+.model{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px}
+.model ul{margin:.4em 0 .2em 1.1em;padding:0}
+.big{font-size:3rem;font-weight:800;color:var(--accent);font-family:Georgia, "Times New Roman", serif}
+.rank{font-size:1.3rem;font-weight:700;color:var(--accent2)}
+table.sum{width:100%;border-collapse:collapse;margin-top:12px;font-size:.95rem}
+table.sum th,table.sum td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left}
+.rules li{margin:.2em 0}
+.hidden{display:none!important}
+footer{color:var(--muted);font-size:.85rem;text-align:center;padding:20px 12px}
+@media (max-width:640px){body{font-size:16px}.row{grid-template-columns:1fr}.slot{grid-template-columns:1fr}.card{padding:16px}.big{font-size:2.4rem}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">🌱 Signs of the Kingdom<small>Unit 5: The Theology of the New Testament</small></div>
+  <a href="index.html">← All units</a>
+</div></header>
+<main class="wrap" id="main">
+  <section id="intro" class="card" aria-labelledby="introTitle">
+    <span class="tag">Unit 5 · Trace the threads that hold the New Testament together</span>
+    <h1 id="introTitle">Signs of the Kingdom</h1>
+    <p class="src">Lesson 13 The Kingdom, Christ, and Salvation · Lesson 14 The Church, Mission, and New Creation</p>
+    <p>After a flood, a village needs more than a promise of escape. It needs clean water, restored homes, healing and justice. Your final mission is to trace the threads that hold the New Testament together: God’s reign announced in Jesus, the Messiah who serves and suffers, a salvation bigger than escape, and a Spirit-filled people sent to bear witness.</p>
+    <h3>How scoring works</h3>
+    <ul class="rules" id="rules"></ul>
+    <div class="actions"><button class="btn" id="startBtn">Begin the mission</button><a class="btn secondary" href="index.html" style="text-decoration:none">Back to all units</a></div>
+  </section>
+  <section id="game" class="hidden" aria-live="polite">
+    <div class="hud">
+      <span id="counter">Challenge 1 of 1</span>
+      <div class="bar" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="barFill"></span></div>
+      <span id="scoreBox">Score: 0</span>
+    </div>
+    <article class="card" id="stage"></article>
+  </section>
+  <section id="results" class="card hidden" aria-live="polite"></section>
+</main>
+<footer>Based on the course guide <em>Introduction to the New Testament</em> (Global School of Open Learning). Questions follow the guide’s own content.</footer>
+<script>
+const GAME = {"game_title": "Signs of the Kingdom", "ranks": [[90, "Herald of the Kingdom"], [70, "Faithful Witness"], [50, "Growing Disciple"], [0, "Mustard Seed: small beginnings, try again"]], "challenges": [{"type": "scroll", "label": "Unlock the Scroll", "title": "The Anointed One", "source": "Lesson 13, section 13.3: Jesus the Christ", "prompt": "The Greek word christos, which translates the Hebrew māšîaḥ, means “________.”", "accept": ["anointed one", "anointed", "the anointed one", "messiah", "the anointed"], "hint": "In the Old Testament, kings and priests were set apart with oil.", "reveal": "“Anointed one”", "explain": "“Jesus Christ” is more than a personal name: it confesses that Jesus is the Messiah."}, {"type": "sort", "label": "Arrange the Evidence", "title": "Already or Not Yet?", "source": "Lesson 13, section 13.2: The Kingdom: Already and Not Yet", "prompt": "Sort each statement: does it describe the Kingdom as “already” at work, or as “not yet” fulfilled?", "categories": ["Already", "Not yet"], "items": [["Jesus’ healings, exorcisms and welcome of outsiders reveal God’s reign at work", "Already"], ["“Righteousness and peace and joy in the Holy Spirit” (Rom. 14:17)", "Already"], ["God has transferred believers into the Kingdom of the Son (Col. 1:13)", "Already"], ["Believers still experience suffering, sin, injustice and death", "Not yet"], ["Jesus teaches his followers to pray, “Your kingdom come” (Matt. 6:10)", "Not yet"], ["The defeat of death and the renewal of creation (1 Cor. 15:20–28; Rev. 21:1–5)", "Not yet"]], "explain": "The Kingdom is genuinely inaugurated but not yet fully consummated. Christians live hopefully within this tension."}, {"type": "match", "label": "Theme and Character Matcher", "title": "Israel’s Hopes for an Anointed Deliverer", "source": "Lesson 13, section 13.3.1", "prompt": "Match each image of hope with its Old Testament passage.", "pairs": [["A righteous branch from David", "Jeremiah 23:5–6"], ["A shepherd for God’s people", "Ezekiel 34:23–24"], ["A Spirit-endowed ruler", "Isaiah 11:1–9"], ["A humble king coming to Zion", "Zechariah 9:9–10"], ["God’s Kingdom overcoming oppressive kingdoms", "Daniel 7:13–14"]], "explain": "Jewish expectations in the Second Temple period were diverse; not every group expected a Messiah, and those who did imagined different figures."}, {"type": "mcq", "label": "Narrative Detective", "title": "Greatness Turned Upside Down", "source": "Lesson 13, section 13.3.3: Jesus redefines messianic power", "prompt": "Clue: In Mark 10:42–45, Jesus contrasts the rulers of the nations with his followers, and says the Son of Man came “to give his life.” What does this passage show about Jesus as Messiah?", "options": ["He redefines messianic power through service, suffering and self-giving", "He is a political liberator who defeats enemies by force", "He rejects every Old Testament hope", "He seeks honour through public recognition"], "answer": 0, "explain": "The cross is not an accidental interruption of the messianic story; it becomes central to how the New Testament understands Jesus’ mission."}, {"type": "sort", "label": "Arrange the Evidence", "title": "Past, Present, Future", "source": "Lesson 13, section 13.4.3: Salvation: past, present and future", "prompt": "Sort each aspect of salvation into its dimension.", "categories": ["Past", "Present", "Future"], "items": [["God’s saving action through Jesus’ life, death and resurrection (Rom. 3:21–26)", "Past"], ["Forgiveness and reconciliation grounded in Christ (2 Cor. 5:17–21)", "Past"], ["New life and the Spirit’s work (John 5:24)", "Present"], ["A transformed community (Rom. 14:17)", "Present"], ["Resurrection and the defeat of death (1 Cor. 15:20–28)", "Future"], ["Renewal of creation (Rev. 21:1–5)", "Future"]], "explain": "These dimensions overlap. Hold together what God has done, what God is doing and what God promises to complete."}, {"type": "match", "label": "Theme and Character Matcher", "title": "Map the Salvation Metaphors", "source": "Lesson 13, Learning Activity 2", "prompt": "Match each passage to the salvation metaphor it emphasises.", "pairs": [["Romans 3:21–26", "Justification / redemption"], ["2 Corinthians 5:17–21", "Reconciliation / new creation"], ["Mark 10:45", "Ransom / self-giving service"], ["John 3:3–8", "New birth / life from God"], ["Romans 8:18–25", "Creation’s liberation / hope"], ["Revelation 21:1–5", "God dwelling with humanity / renewal"]], "explain": "These metaphors should not be flattened into synonyms; each highlights a different aspect of salvation."}, {"type": "path", "label": "Choose Your Path", "title": "Heaven or Society?", "source": "Lesson 13, Higher-Order Challenge and section 13.4.2", "prompt": "Hypothetical scenario: one leader says, “Our mission is to get people into heaven; social problems are secondary.” Another says, “Salvation is mainly about changing society here and now.” Which response best reflects the lesson?", "choices": [["Side with the first leader: salvation is about leaving earth for heaven.", 0, "The lesson challenges the idea that the Bible’s central hope is simply leaving earth for heaven."], ["Side with the second leader: salvation is social improvement.", 0, "A response focused only on social improvement misses forgiveness, worship, resurrection and God’s final victory."], ["Hold them together: salvation includes forgiveness and life with God, present healing and reconciliation, and the future resurrection and renewal of creation.", 2, "This is the lesson’s picture: Kingdom, Christ and salvation belong together without reducing one to another."]], "explain": "Personal forgiveness and heavenly hope are not unimportant; they belong within a larger biblical vision that includes resurrection and creation’s renewal."}, {"type": "order", "label": "Story Sequencer", "title": "The Day of Pentecost", "source": "Lesson 14, sections 14.5 and 14.6", "prompt": "Arrange the movement of Acts 2 as the lesson describes it.", "items": ["Wind and fire: the Spirit comes upon the disciples", "People from many places hear the message in their own languages", "Peter’s message and the people’s response: repentance and baptism (vv. 38–41)", "Devotion to teaching, fellowship, breaking bread and prayer (v. 42)", "The Lord adds to their number (v. 47)"], "explain": "The passage moves from the response to Peter’s message to the habits and shared life of believers; verses 41 and 47 frame it with references to growth (an inclusio)."}, {"type": "build", "label": "Build the Story", "title": "A Witnessing Community", "source": "Lesson 14, section 14.6: The Practices of a Witnessing Community", "prompt": "Build the table from Acts 2:42–47: connect each practice to its connection with mission.", "slots": [["Apostles’ teaching", "The Church learns the message and way of Jesus"], ["Fellowship (koinonia)", "Mutual responsibility becomes visible"], ["Breaking bread", "Hospitality and shared life embody belonging"], ["Prayer and worship", "Mission is grounded in dependence on and worship of God"]], "explain": "The church’s shared life does not replace proclamation; it gives visible expression to the message it proclaims."}, {"type": "scroll", "label": "Unlock the Scroll", "title": "Fellowship That Shares", "source": "Lesson 14, section 14.7", "prompt": "What Greek word conveys fellowship, participation, sharing and partnership in Acts 2?", "accept": ["koinonia", "koinōnia", "koinonía"], "hint": "It begins with “koin-”, the same root as “common.”", "reveal": "Koinonia", "explain": "In Acts 2, fellowship is not simply friendliness; believers attend to one another’s needs."}, {"type": "mcq", "label": "Narrative Detective", "title": "A Caution in Acts 5", "source": "Lesson 14, section 14.7", "prompt": "Clue: In Acts 5:4 Peter acknowledges that the property and its proceeds remained under the owner’s control before the sale. What does this verse show according to the lesson?", "options": ["The narrative confronts deceit; it does not establish that every believer was compelled to surrender all property", "Every believer was forced to give up all property", "Generosity has no place in the church", "Acts 2:44–45 must be copied exactly by every church"], "answer": 0, "explain": "Generosity must not become coercion, especially against vulnerable people."}, {"type": "path", "label": "Choose Your Path", "title": "Spirit-Filled but Ungenerous?", "source": "Lesson 14, Higher-Order Challenge and Interpretive Care", "prompt": "Hypothetical claim: “A church can be Spirit-filled even if its members’ shared life shows little generosity or concern for people in need.” Which response best fits the lesson?", "choices": [["Agree: the Spirit is about worship experiences, not shared life.", 0, "The lesson asks whether we seek extraordinary experiences detached from the message and witness of Jesus."], ["Disagree, and insist every church must adopt the identical system of communal ownership described in Acts 2.", 1, "The lesson says Acts 2:44–45 does not by itself require every community to adopt an identical system."], ["Disagree: Acts 1:8 and 2:42–47 link the Spirit’s power with witness and a shared life of generosity and care, while churches must apply these practices wisely in their own contexts.", 2, "This holds the text’s theological challenge together with the lesson’s interpretive care."]], "explain": "Ask what the passage describes, what it teaches, and how its principles can be lived faithfully today."}, {"type": "reflect", "label": "Reflection Challenge", "title": "A Month in Your Congregation", "source": "Lesson 14, Something to Ponder (section 14.8)", "prompt": "If someone observed your congregation’s ordinary life for a month (how it uses money, treats outsiders, handles conflict, exercises authority and responds to need), what might that person conclude about the Jesus the congregation proclaims? Write 3–5 sentences.", "guidance": ["Be specific and honest: name both a strength and an area for growth.", "Connect your observation to one practice in Acts 2:42–47.", "Avoid naming or shaming individuals, as the Congregational Audit activity advises.", "End with one realistic step your church could take."], "model": "A model response might say: An observer would see a church that prays faithfully and welcomes visitors warmly. They might also notice that we rarely share resources with members in financial need. Acts 2:44–45 challenges us to let fellowship become practical sharing. A realistic step would be a transparent fund that helps members facing hardship, without humiliating those who receive help."}]};
+(function(){
+  const POINTS = 10;
+  const $ = (s, el=document) => el.querySelector(s);
+  const el = (tag, attrs={}, ...kids) => { const n = document.createElement(tag);
+    for (const [k,v] of Object.entries(attrs)) { if (k==='class') n.className=v; else if (k==='text') n.textContent=v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v); }
+    for (const k of kids) n.append(k); return n; };
+  function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; }
+  function shuffleNotIdentity(a, same){ if (a.length<2) return a.slice(); let b; let tries=0; do { b=shuffle(a); tries++; } while (same(b) && tries<50); return b; }
+  function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[“”"'’.,;:!?()\[\]]/g,'').replace(/\s+/g,' ').trim(); }
+  const LABELS = {mcq:'🔍 Narrative Detective', order:'🔢 Story Sequencer', match:'🔗 Theme and Character Matcher', path:'🛤️ Choose Your Path', scroll:'📜 Unlock the Scroll', sort:'🗂️ Arrange the Evidence', build:'🧩 Build the Story', reflect:'✍️ Reflection Challenge'};
+  let state;
+  function reset(){ state = {i:0, score:0, results:GAME.challenges.map(()=>null)}; }
+  const max = GAME.challenges.length * POINTS;
+
+  // rules
+  const rules = [
+    `There are ${GAME.challenges.length} challenges, each worth ${POINTS} points (maximum ${max}).`,
+    'Detective questions: 10 points if your single answer is correct.',
+    'Sequencing, matching, sorting and story-building: points in proportion to the items you place correctly; full marks only when the whole response is correct.',
+    'Unlock the Scroll: 10 points on the first try, 6 on the second, 3 on the third. A hint appears after a wrong answer.',
+    'Choose Your Path: 10 points for the response that best fits the course guide, 5 for a partial one, 0 otherwise. Scenarios are hypothetical.',
+    'Reflection: 10 points for completing a response of at least 25 words. Your writing is not graded automatically; compare it with the guidance and model response.',
+    'Answer choices are shuffled every time a challenge appears.'];
+  const rl = $('#rules'); rules.forEach(r => rl.append(el('li',{text:r})));
+
+  function updateHud(){
+    $('#counter').textContent = `Challenge ${Math.min(state.i+1, GAME.challenges.length)} of ${GAME.challenges.length}`;
+    $('#scoreBox').textContent = `Score: ${state.score} / ${max}`;
+    const done = state.results.filter(r=>r!==null).length;
+    const pct = Math.round(100*done/GAME.challenges.length);
+    $('#barFill').style.width = pct+'%';
+    $('.bar').setAttribute('aria-valuenow', pct);
+  }
+  function feedback(box, kind, title, text){
+    box.className = 'fb show ' + kind; box.innerHTML = '';
+    box.append(el('strong',{text:title}));
+    if (Array.isArray(text)) text.forEach(t => box.append(el('div',{text:t}))); else box.append(el('div',{text:text}));
+    box.setAttribute('tabindex','-1'); box.focus({preventScroll:false});
+  }
+  function finish(points, actions){
+    const c = GAME.challenges[state.i];
+    state.results[state.i] = {title:c.title, type:c.type, points};
+    state.score += points; updateHud();
+    actions.innerHTML = '';
+    const last = state.i === GAME.challenges.length - 1;
+    const nb = el('button',{class:'btn', id:'nextBtn', text: last ? 'See my results' : 'Next challenge →'});
+    nb.addEventListener('click', () => { if (last) showResults(); else { state.i++; render(); } });
+    actions.append(nb); nb.focus();
+  }
+
+  function render(){
+    updateHud();
+    const c = GAME.challenges[state.i];
+    const st = $('#stage'); st.innerHTML = '';
+    st.append(el('span',{class:'tag', text: LABELS[c.type] || c.label}));
+    st.append(el('h2',{text:c.title}));
+    st.append(el('p',{class:'src', text:'Source: ' + c.source}));
+    st.append(el('p',{class:'prompt', text:c.prompt}));
+    const body = el('div'); const actions = el('div',{class:'actions'}); const fb = el('div',{class:'fb', role:'status'});
+    st.append(body, actions, fb);
+    ({mcq, order, match, sort, build, scroll, path, reflect})[c.type](c, body, actions, fb);
+    st.querySelector('h2').setAttribute('tabindex','-1'); st.querySelector('h2').focus();
+  }
+
+  function mcq(c, body, actions, fb){
+    const opts = shuffle(c.options.map((t,k)=>({t,k})));
+    const wrap = el('div',{class:'opts', role:'group', 'aria-label':'Answer options'});
+    opts.forEach(o => {
+      const b = el('button',{class:'opt', 'data-key':String(o.k), text:o.t});
+      b.addEventListener('click', () => {
+        wrap.querySelectorAll('button').forEach(x => { x.disabled = true; if (+x.dataset.key === c.answer) x.classList.add('correct'); });
+        const right = o.k === c.answer;
+        if (!right) b.classList.add('wrong'); b.classList.add('picked');
+        feedback(fb, right?'ok':'bad', right?'Correct! +10':'Not quite. +0', c.explain);
+        finish(right?POINTS:0, actions);
+      });
+      wrap.append(b);
+    });
+    body.append(wrap);
+  }
+
+  function order(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'Use the ↑ and ↓ buttons (or drag and drop) to put the items in order, then check your sequence.'}));
+    const items = shuffleNotIdentity(c.items.map((t,k)=>({t,k})), b => b.every((x,i)=>x.k===i));
+    const list = el('ol',{class:'seq'});
+    let dragSrc = null;
+    function draw(){
+      list.innerHTML = '';
+      items.forEach((it, pos) => {
+        const up = el('button',{class:'mv', 'aria-label':`Move “${it.t}” up`, text:'↑'});
+        const dn = el('button',{class:'mv', 'aria-label':`Move “${it.t}” down`, text:'↓'});
+        up.disabled = pos===0 || locked; dn.disabled = pos===items.length-1 || locked;
+        up.addEventListener('click', () => { [items[pos-1],items[pos]]=[items[pos],items[pos-1]]; draw(); list.children[pos-1].querySelectorAll('.mv')[0].focus(); });
+        dn.addEventListener('click', () => { [items[pos+1],items[pos]]=[items[pos],items[pos+1]]; draw(); list.children[pos+1].querySelectorAll('.mv')[1].focus(); });
+        const li = el('li',{draggable: locked?'false':'true', 'data-key':String(it.k)}, el('span',{class:'num', text:String(pos+1)}), el('span',{class:'seqtext', text:it.t}), up, dn);
+        li.addEventListener('dragstart', e => { dragSrc = pos; li.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain', String(pos)); });
+        li.addEventListener('dragend', () => li.classList.remove('dragging'));
+        li.addEventListener('dragover', e => { if (!locked) e.preventDefault(); });
+        li.addEventListener('drop', e => { e.preventDefault(); if (locked || dragSrc===null) return; const [m] = items.splice(dragSrc,1); items.splice(pos,0,m); dragSrc=null; draw(); });
+        if (locked) li.classList.add(it.k===pos?'correct':'wrong');
+        list.append(li);
+      });
+    }
+    let locked = false; draw(); body.append(list);
+    const chk = el('button',{class:'btn', text:'Check my sequence'});
+    chk.addEventListener('click', () => {
+      locked = true; draw();
+      const right = items.filter((it,pos)=>it.k===pos).length;
+      const pts = Math.round(POINTS*right/items.length);
+      const all = right===items.length;
+      feedback(fb, all?'ok':(right>0?'mid':'bad'), all?'Perfect sequence! +10':`${right} of ${items.length} in the right place. +${pts}`,
+        all ? [c.explain] : ['Correct order: ' + c.items.map((t,i)=>`${i+1}. ${t}`).join('  '), c.explain]);
+      finish(pts, actions);
+    });
+    actions.append(chk);
+  }
+
+  function selectRows(c, body, actions, fb, rows, optionsAll, kind){
+    // rows: [{label, answer}] ; options: list of strings
+    const wrap = el('div',{class: kind==='build' ? 'build' : 'rows'});
+    const sels = [];
+    rows.forEach((r, i) => {
+      const id = `sel_${state.i}_${i}`;
+      const sel = el('select',{id});
+      sel.append(el('option',{value:'', text:'— choose —'}));
+      shuffle(optionsAll).forEach(o => sel.append(el('option',{value:o, text:o})));
+      const lbl = el('label',{class:'lbl', for:id, text:r.label});
+      const row = el('div',{class: kind==='build' ? 'slot' : 'row'}, lbl, sel);
+      sels.push({sel, row, r}); wrap.append(row);
+    });
+    body.append(wrap);
+    const chk = el('button',{class:'btn', text: kind==='build' ? 'Check my story map' : (kind==='sort' ? 'Check my sorting' : 'Check my matches')});
+    chk.addEventListener('click', () => {
+      const empty = sels.filter(s => !s.sel.value);
+      if (empty.length){ feedback(fb, 'mid', 'Complete every item first', `${empty.length} item(s) still need a choice. The whole response is checked together.`); empty[0].sel.focus(); return; }
+      let right = 0;
+      sels.forEach(s => { s.sel.disabled = true; const ok = s.sel.value === s.r.answer; if (ok) right++;
+        s.row.classList.add(ok?'correct':'wrong'); if (!ok) s.row.append(el('div',{class:'fix', text:'Correct answer: ' + s.r.answer})); });
+      const pts = Math.round(POINTS*right/sels.length); const all = right===sels.length;
+      feedback(fb, all?'ok':(right>0?'mid':'bad'), all?`All ${sels.length} correct! +10`:`${right} of ${sels.length} correct. +${pts}`, c.explain);
+      finish(pts, actions);
+    });
+    actions.append(chk);
+  }
+  function match(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'Choose the matching answer for every item. Each answer is used once.'}));
+    const rows = shuffle(c.pairs.map(p => ({label:p[0], answer:p[1]})));
+    selectRows(c, body, actions, fb, rows, c.pairs.map(p=>p[1]), 'match');
+  }
+  function sort(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'Assign every item to a category: ' + c.categories.join(' · ') + '.'}));
+    const rows = shuffle(c.items.map(p => ({label:p[0], answer:p[1]})));
+    selectRows(c, body, actions, fb, rows, c.categories, 'sort');
+  }
+  function build(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'Fill each stage of the map from the options. Each option is used once.'}));
+    const rows = c.slots.map(p => ({label:p[0], answer:p[1]}));
+    selectRows(c, body, actions, fb, rows, c.slots.map(p=>p[1]), 'build');
+  }
+
+  function scroll(c, body, actions, fb){
+    const id = 'ans_' + state.i;
+    const inp = el('input',{type:'text', id, autocomplete:'off', 'aria-label':'Your answer'});
+    const hint = el('div',{class:'hint hidden', text:'Hint: ' + c.hint});
+    const tries = el('div',{class:'wc', text:'Attempts left: 3'});
+    body.append(el('label',{for:id, text:'Your answer:'}), inp, tries, hint);
+    let left = 3;
+    const chk = el('button',{class:'btn', text:'Unlock'});
+    const go = () => {
+      const v = norm(inp.value); if (!v) { feedback(fb,'mid','Type an answer first','Enter a word or phrase to unlock the scroll.'); inp.focus(); return; }
+      const ok = c.accept.map(norm).includes(v);
+      if (ok){ const pts = [0,3,6,10][left]; inp.disabled = true; chk.disabled = true;
+        feedback(fb,'ok',`Scroll unlocked! +${pts}`, ['Answer: ' + c.reveal, c.explain]); finish(pts, actions); return; }
+      left--; tries.textContent = 'Attempts left: ' + left; hint.classList.remove('hidden');
+      if (left===0){ inp.disabled = true; chk.disabled = true; feedback(fb,'bad','The scroll stays sealed. +0', ['Answer: ' + c.reveal, c.explain]); finish(0, actions); }
+      else { feedback(fb,'bad','Not yet. Try again.', 'Read the hint and try another answer.'); inp.select(); inp.focus(); }
+    };
+    chk.addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key==='Enter') go(); });
+    actions.append(chk);
+  }
+
+  function path(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'This is a hypothetical scenario for practice. It is not an event recorded in the source.'}));
+    const ch = shuffle(c.choices.map((x,k)=>({t:x[0], q:x[1], why:x[2], k})));
+    const wrap = el('div',{class:'opts', role:'group', 'aria-label':'Choices'});
+    ch.forEach(o => {
+      const b = el('button',{class:'opt', 'data-quality':String(o.q), text:o.t});
+      b.addEventListener('click', () => {
+        wrap.querySelectorAll('button').forEach(x => { x.disabled = true; if (+x.dataset.quality===2) x.classList.add('correct'); });
+        b.classList.add('picked'); if (o.q!==2) b.classList.add('wrong');
+        const pts = o.q===2 ? POINTS : (o.q===1 ? 5 : 0);
+        feedback(fb, o.q===2?'ok':(o.q===1?'mid':'bad'), o.q===2?'Wise path! +10':(o.q===1?'A partial path. +5':'This path leads astray. +0'), [o.why, c.explain]);
+        finish(pts, actions);
+      });
+      wrap.append(b);
+    });
+    body.append(wrap);
+  }
+
+  function reflect(c, body, actions, fb){
+    const id = 'ref_' + state.i;
+    const ta = el('textarea',{id, 'aria-label':'Your reflection'});
+    const wc = el('div',{class:'wc', text:'0 words (at least 25 needed)'});
+    body.append(el('label',{for:id, text:'Your reflection:'}), ta, wc);
+    const btn = el('button',{class:'btn', text:'Submit reflection', disabled:'disabled'});
+    ta.addEventListener('input', () => { const n = ta.value.trim().split(/\s+/).filter(Boolean).length; wc.textContent = `${n} words (at least 25 needed)`; btn.disabled = n < 25; });
+    btn.addEventListener('click', () => {
+      ta.readOnly = true; btn.disabled = true;
+      const m = el('div',{class:'model'}, el('strong',{text:'Check your response against this guidance:'}));
+      const ul = el('ul'); c.guidance.forEach(g => ul.append(el('li',{text:g}))); m.append(ul, el('p',{text:c.model}));
+      body.append(m);
+      feedback(fb,'ok','Reflection recorded. +10 for completion', 'Your writing is not graded automatically. Compare it with the guidance above, or share it with your tutor or study group.');
+      finish(POINTS, actions);
+    });
+    actions.append(btn);
+  }
+
+  function showResults(){
+    $('#game').classList.add('hidden');
+    const r = $('#results'); r.classList.remove('hidden'); r.innerHTML = '';
+    const pct = Math.round(100*state.score/max);
+    const rank = GAME.ranks.find(x => pct >= x[0])[1];
+    r.append(el('span',{class:'tag', text:'Mission complete'}), el('h2',{text:GAME.game_title + ': results'}));
+    r.append(el('div',{class:'big', text:`${state.score} / ${max}`}), el('p',{text:`${pct}% of the available points`}), el('p',{class:'rank', text:'Your rank: ' + rank}));
+    const t = el('table',{class:'sum'}); const th = el('tr'); ['Challenge','Activity','Points'].forEach(h=>th.append(el('th',{text:h}))); t.append(th);
+    state.results.forEach(x => { const tr = el('tr'); tr.append(el('td',{text:x.title}), el('td',{text:LABELS[x.type]}), el('td',{text:`${x.points} / ${POINTS}`})); t.append(tr); });
+    r.append(t);
+    const act = el('div',{class:'actions'});
+    const again = el('button',{class:'btn', id:'replayBtn', text:'Play again'});
+    again.addEventListener('click', () => { r.classList.add('hidden'); reset(); $('#game').classList.remove('hidden'); render(); });
+    act.append(again, el('a',{class:'btn secondary', href:'index.html', style:'text-decoration:none', text:'Back to all units'}));
+    r.append(act); r.querySelector('h2').setAttribute('tabindex','-1'); r.querySelector('h2').focus();
+    window.__lastResult = {score: state.score, max, pct, rank};
+  }
+
+  $('#startBtn').addEventListener('click', () => { $('#intro').classList.add('hidden'); reset(); $('#game').classList.remove('hidden'); render(); });
+  reset();
+  window.__game = {get state(){return state;}, max};
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Witnesses on the Road · Unit 3: The Gospels and Acts</title>
+<style>
+:root{--bg:#f7f1ea;--card:#fffdf9;--ink:#3a2618;--accent:#b3541e;--accent2:#4f6b2f;--soft:#efe1cf;
+--ok:#1e7b45;--okbg:#e3f4ea;--bad:#a8322d;--badbg:#fbe7e5;--mid:#8a6a00;--midbg:#fff4d6;--muted:#6b6b6b;--line:rgba(0,0,0,.12)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:Georgia, "Times New Roman", serif;line-height:1.25;margin:.2em 0 .4em}
+a{color:var(--accent)}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+header.top{background:var(--accent);color:#fff}
+header.top .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+header.top a{color:#fff;text-decoration:none;font-weight:600;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:6px 14px}
+header.top a:hover,header.top a:focus{background:rgba(255,255,255,.15)}
+.brand{font-family:Georgia, "Times New Roman", serif;font-size:1.15rem;font-weight:700}
+.brand small{display:block;font-family:inherit;font-weight:400;font-size:.8rem;opacity:.9}
+.hud{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:14px 0 6px;font-weight:600}
+.bar{flex:1 1 220px;height:12px;background:var(--soft);border-radius:999px;overflow:hidden;min-width:160px}
+.bar span{display:block;height:100%;width:0;background:var(--accent2);transition:width .3s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin:12px 0}
+.tag{display:inline-block;background:var(--soft);color:var(--accent);font-weight:700;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:4px 12px}
+.src{color:var(--muted);font-size:.85rem;margin-top:-4px}
+.prompt{font-size:1.05rem;margin:12px 0 16px}
+.btn{font:inherit;font-weight:600;border:2px solid var(--accent);background:var(--accent);color:#fff;border-radius:10px;padding:10px 18px;cursor:pointer;min-height:44px}
+.btn.secondary{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.opt:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,.mv:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;text-align:left;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;color:var(--ink);min-height:44px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.correct{background:var(--okbg);border-color:var(--ok)}
+.opt.wrong{background:var(--badbg);border-color:var(--bad)}
+.opt.picked{box-shadow:inset 0 0 0 2px var(--accent2)}
+.opt:disabled{cursor:default}
+.fb{margin-top:16px;border-radius:12px;padding:14px 16px;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--okbg);border-left:6px solid var(--ok)}
+.fb.bad{background:var(--badbg);border-left:6px solid var(--bad)}
+.fb.mid{background:var(--midbg);border-left:6px solid var(--mid)}
+.fb strong{display:block;margin-bottom:4px}
+ol.seq{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+ol.seq li{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px 10px;cursor:grab}
+ol.seq li.dragging{opacity:.5}
+ol.seq li.correct{border-color:var(--ok);background:var(--okbg)}
+ol.seq li.wrong{border-color:var(--bad);background:var(--badbg)}
+.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700}
+.seqtext{flex:1}
+.mv{font:inherit;border:1px solid var(--line);background:#fff;border-radius:8px;width:40px;height:40px;cursor:pointer;color:var(--ink)}
+.mv:disabled{opacity:.3}
+.rows{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:10px;align-items:center;background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.row.correct{border-color:var(--ok);background:var(--okbg)}
+.row.wrong{border-color:var(--bad);background:var(--badbg)}
+.row .lbl{font-weight:600}
+.row .fix{grid-column:1/-1;font-size:.9rem;color:var(--bad)}
+select,input[type=text],textarea{font:inherit;width:100%;border:2px solid var(--line);border-radius:10px;padding:9px 10px;background:#fff;color:var(--ink)}
+textarea{min-height:150px;resize:vertical}
+.build{display:grid;gap:0}
+.slot{position:relative;background:#fff;border:2px dashed var(--accent);border-radius:14px;padding:12px;display:grid;grid-template-columns:minmax(120px,30%) 1fr;gap:10px;align-items:center}
+.slot+.slot{margin-top:22px}
+.slot+.slot::before{content:"▼";position:absolute;top:-22px;left:24px;color:var(--accent);font-size:.9rem}
+.slot.correct{border-style:solid;border-color:var(--ok);background:var(--okbg)}
+.slot.wrong{border-style:solid;border-color:var(--bad);background:var(--badbg)}
+.slot .lbl{font-family:Georgia, "Times New Roman", serif;font-weight:700;color:var(--accent)}
+.slot .fix{grid-column:1/-1;font-size:.9rem;color:var(--bad)}
+.choice-note{font-size:.95rem;margin-top:6px}
+.notice{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:.92rem;margin-bottom:12px}
+.hint{color:var(--accent2);font-style:italic;margin-top:8px}
+.wc{color:var(--muted);font-size:.85rem;margin-top:6px}
+.model{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px}
+.model ul{margin:.4em 0 .2em 1.1em;padding:0}
+.big{font-size:3rem;font-weight:800;color:var(--accent);font-family:Georgia, "Times New Roman", serif}
+.rank{font-size:1.3rem;font-weight:700;color:var(--accent2)}
+table.sum{width:100%;border-collapse:collapse;margin-top:12px;font-size:.95rem}
+table.sum th,table.sum td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left}
+.rules li{margin:.2em 0}
+.hidden{display:none!important}
+footer{color:var(--muted);font-size:.85rem;text-align:center;padding:20px 12px}
+@media (max-width:640px){body{font-size:16px}.row{grid-template-columns:1fr}.slot{grid-template-columns:1fr}.card{padding:16px}.big{font-size:2.4rem}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">🧭 Witnesses on the Road<small>Unit 3: The Gospels and Acts</small></div>
+  <a href="index.html">← All units</a>
+</div></header>
+<main class="wrap" id="main">
+  <section id="intro" class="card" aria-labelledby="introTitle">
+    <span class="tag">Unit 3 · Follow the good news from Galilee to Rome</span>
+    <h1 id="introTitle">Witnesses on the Road</h1>
+    <p class="src">Lesson 7 Synoptic Gospels · Lesson 8 Gospel of John · Lesson 9 Acts</p>
+    <p>A messenger runs into the city shouting “Good news!” But what kind of news is it, and who is the king it announces? Travel with four Gospel writers and one historian as they tell the story of Jesus and the mission he continues through the Spirit. Gather clues, follow the road from Galilee to Jerusalem, and carry the witness “to the ends of the earth.”</p>
+    <h3>How scoring works</h3>
+    <ul class="rules" id="rules"></ul>
+    <div class="actions"><button class="btn" id="startBtn">Begin the mission</button><a class="btn secondary" href="index.html" style="text-decoration:none">Back to all units</a></div>
+  </section>
+  <section id="game" class="hidden" aria-live="polite">
+    <div class="hud">
+      <span id="counter">Challenge 1 of 1</span>
+      <div class="bar" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="barFill"></span></div>
+      <span id="scoreBox">Score: 0</span>
+    </div>
+    <article class="card" id="stage"></article>
+  </section>
+  <section id="results" class="card hidden" aria-live="polite"></section>
+</main>
+<footer>Based on the course guide <em>Introduction to the New Testament</em> (Global School of Open Learning). Questions follow the guide’s own content.</footer>
+<script>
+const GAME = {"game_title": "Witnesses on the Road", "ranks": [[90, "Faithful Witness to the Ends of the Earth"], [70, "Companion on the Road"], [50, "Disciple in Training"], [0, "Pilgrim: walk the road again"]], "challenges": [{"type": "mcq", "label": "Narrative Detective", "title": "An Inscription at Priene", "source": "Lesson 7, section 7.1.1: The Greco-Roman Background", "prompt": "Clue: An inscription from Priene (9 BCE) celebrates the birth of Augustus and presents the beginning of his life as “good news” for the world. What does this background suggest about early Christian “gospel” language?", "options": ["The announcement of God’s kingdom could carry public and political implications", "Every use of euangelion in the New Testament is a direct attack on Rome", "The gospel was only about private religious experience", "Christians borrowed the gospel message from emperor worship"], "answer": 0, "explain": "The guide: “This does not mean that every occurrence of euangelion is a direct political attack on Rome. It does mean that the announcement of God’s kingdom could carry public and political implications.”"}, {"type": "match", "label": "Theme and Character Matcher", "title": "Four Portraits", "source": "Lessons 7–8", "prompt": "Match each Gospel with the emphasis or setting the lesson highlights.", "pairs": [["Matthew", "Jesus as promised Messiah for readers familiar with Jewish Scripture and customs"], ["Mark", "A paradox: Jesus’ authority alongside misunderstanding and the way of the cross"], ["Luke", "An orderly account for Theophilus; salvation reaching those on the margins"], ["John", "Signs, irony and glory, written “that you may believe” (20:30–31)"]], "explain": "Each Gospel has its own audience, purpose and structure; their differences are part of their witness."}, {"type": "sort", "label": "Arrange the Evidence", "title": "Whose Audience?", "source": "Lesson 7, sections 7.2.3 and 7.6.1", "prompt": "Sort each clue: does it point to Matthew’s Jewish-Christian audience or to Mark’s Roman Gentile audience?", "categories": ["Matthew: Jewish-Christian audience", "Mark: Roman Gentile audience"], "items": [["Jewish customs are left unexplained (Matt. 15:2; 23:5)", "Matthew: Jewish-Christian audience"], ["Pharisees and questions of Torah interpretation feature prominently", "Matthew: Jewish-Christian audience"], ["Jesus’ relationship to Israel’s Scriptures is prominent", "Matthew: Jewish-Christian audience"], ["Jewish customs are explained (Mark 7:3–4)", "Mark: Roman Gentile audience"], ["Aramaic words such as “Talitha koum” are translated", "Mark: Roman Gentile audience"], ["Latin-derived terms such as denarius and legion appear", "Mark: Roman Gentile audience"], ["Roman time terms: “the fourth watch of the night” (Mark 6:48)", "Mark: Roman Gentile audience"]], "explain": "These features support the proposals but, as the guide stresses, they do not prove the exact make-up or location of each audience."}, {"type": "build", "label": "Build the Story", "title": "Matthew’s Five Books", "source": "Lesson 7, section 7.3.1: Matthew’s Major Sections", "prompt": "Build Matthew’s structure: place the correct content into each section.", "slots": [["Prologue (1–2)", "Birth and infancy of Jesus"], ["Book I (3–7)", "Ministry begins; Sermon on the Mount"], ["Book II (8–10)", "Mission, miracles and discipleship"], ["Book III (11–13)", "Responses to Jesus and the kingdom parables"], ["Book IV (14–18)", "Jesus’ ministry, community and the church"], ["Book V (19–25)", "Discipleship, judgment and final teachings"], ["Epilogue (26–28)", "Passion, resurrection and the commissioning of disciples"]], "explain": "The five-book arrangement is a useful teaching framework; the link with the five books of Moses is an interpretation, not a claim made by the author."}, {"type": "path", "label": "Choose Your Path", "title": "The Brackets after Mark 16:8", "source": "Lesson 7, section 7.7.1", "prompt": "Hypothetical scenario: in your Bible study someone asks why their Bible prints Mark 16:9–20 in brackets. What is your best answer?", "choices": [["Tell them those verses are certainly Mark’s original ending.", 0, "The guide says Mark ends at 16:8 in the earliest recoverable form; later manuscripts include longer endings."], ["Explain that the earliest recoverable form of Mark ends at 16:8, that some later manuscripts include longer endings, and that the abrupt ending is part of Mark’s literary effect.", 2, "This matches the guide, which asks that the textual issue be “considered carefully” when studying Mark’s conclusion."], ["Say it does not matter and move on.", 1, "Avoiding the question misses an opportunity to teach honestly about the text of Mark."]], "explain": "Mark ends with the women fleeing the tomb in fear and astonishment after hearing that Jesus has been raised (16:8)."}, {"type": "order", "label": "Story Sequencer", "title": "Luke’s Road to Jerusalem", "source": "Lesson 7, section 7.11: The Structure of Luke", "prompt": "Arrange the eight movements of Luke’s Gospel in order.", "items": ["Prologue (1:1–4)", "Birth and childhood (1:5–2:52)", "Preparation (3:1–4:13)", "Galilean ministry (4:14–9:50)", "Journey to Jerusalem (9:51–19:27)", "Jerusalem ministry (19:28–21:38)", "Passion (22:1–23:56)", "Resurrection (24:1–53)"], "explain": "Luke 9:51 is the decisive turn: Jesus “sets his face” toward Jerusalem, and the journey becomes a major organising feature of the narrative."}, {"type": "scroll", "label": "Unlock the Scroll", "title": "The Turning Point", "source": "Lesson 7, section 7.11.1", "prompt": "Complete the clue: In Luke 9:51 Jesus “sets his face” toward ________.", "accept": ["jerusalem"], "hint": "The city of the Temple, where Jesus’ mission reaches its climax.", "reveal": "Jerusalem", "explain": "From this point the journey to Jerusalem shapes the narrative, and Acts continues the story outward from the same city."}, {"type": "match", "label": "Theme and Character Matcher", "title": "John’s Great Themes", "source": "Lesson 8, sections 8.2 and 8.4", "prompt": "Match each theme or part of John to its clue.", "pairs": [["John as a new Genesis", "“In the beginning” (John 1:1)"], ["John as a new Exodus", "The Word “tabernacled” (dwelt) among us (John 1:14)"], ["John as a Gospel of the Spirit", "The risen Jesus breathes on the disciples (John 20:22)"], ["The Book of Glory", "John 13:1–20:31: Farewell Discourses, passion and resurrection"]], "explain": "Chapters 12–13 mark the pivot from public signs to the “hour” of Jesus’ glorification."}, {"type": "mcq", "label": "Narrative Detective", "title": "Why Was John Written?", "source": "Lesson 8, section 8.3.4: Occasion and Purpose", "prompt": "Clue: “These are written so that readers may believe that Jesus is the Messiah, the Son of God, and by believing may have life in his name” (John 20:30–31). How does the lesson describe John’s purpose?", "options": ["Both evangelistic and formative: coming to faith and continuing in faith", "Only a historical record with no call to faith", "A rule book for church order", "A collection of sayings without a story"], "answer": 0, "explain": "The verb translated “believe” can relate to coming to faith and continuing in faith, so John’s purpose is both evangelistic and formative."}, {"type": "order", "label": "Story Sequencer", "title": "To the Ends of the Earth", "source": "Lesson 9, section 9.6: Structure", "prompt": "Arrange these events in the order in which Acts narrates them.", "items": ["Pentecost (Acts 2)", "Philip in Samaria (Acts 8)", "Cornelius and the Gentiles receive the Spirit (Acts 10–11)", "The Jerusalem Council (Acts 15)", "Paul preaching in Rome (Acts 28)"], "explain": "Acts follows Acts 1:8: Jerusalem → Judea and Samaria → the ends of the earth. The ending leaves the mission open."}, {"type": "sort", "label": "Arrange the Evidence", "title": "What Do the Stones Say?", "source": "Lesson 9, section 9.7 and Think Like a Scholar", "prompt": "For each claim, decide whether the evidence directly establishes it or whether it remains an inference or is not verified.", "categories": ["Directly established by the evidence", "Inference, debated or not verified"], "items": [["An inscription from Delphi refers to Gallio’s proconsulship (c. AD 51–52)", "Directly established by the evidence"], ["The title “politarchs” was used for officials in Thessalonica", "Directly established by the evidence"], ["The theatre at Ephesus could accommodate a large crowd", "Directly established by the evidence"], ["The Erastus of the Corinth inscription is the same Erastus as in Romans 16:23", "Inference, debated or not verified"], ["Remains of the temple of Artemis verify the specific speeches in Acts 19", "Inference, debated or not verified"], ["Roman roads prove every individual journey in Acts happened as described", "Inference, debated or not verified"]], "explain": "Ask three questions of archaeological evidence: What does the object directly establish? How closely does it match the period? What remains an inference?"}, {"type": "scroll", "label": "Unlock the Scroll", "title": "The Key Text of Acts", "source": "Lesson 9, section 9.1 (Acts 1:8)", "prompt": "“You will receive power when the Holy Spirit has come upon you, and you will be my ________ in Jerusalem, and in all Judea and Samaria, and to the farthest parts of the earth.”", "accept": ["witnesses", "witness"], "hint": "People who testify to what they have seen.", "reveal": "witnesses", "explain": "Acts shows the risen Jesus continuing his work through the Holy Spirit and his witnesses."}, {"type": "reflect", "label": "Reflection Challenge", "title": "Who Is “Far Off”?", "source": "Lesson 7, South Asian Context: Who is “far off”? (section 7.10)", "prompt": "Luke-Acts follows God’s welcome to the poor, women, outsiders, Samaritans and Gentiles. In 3–5 sentences, name one group who may be treated as “far off” in your community, and describe one concrete step your church could take in response.", "guidance": ["Identify the group carefully and respectfully (class, caste, language, disability, religious background, and so on).", "Connect your answer to a specific passage from Luke or Acts (for example, Luke 19:1–10 or Acts 8).", "Propose an action that is practical for your local context, not only an idea.", "Remember the guide’s caution: attend to local realities rather than assuming every community experiences exclusion in the same way."], "model": "A model response might say: In our town, migrant labourers who speak another language rarely come to church. Luke shows Jesus welcoming Zacchaeus, someone others kept at a distance (Luke 19:1–10). Our church could hold a monthly meal near the labour camp and invite a believer who speaks their language to share and pray with them."}]};
+(function(){
+  const POINTS = 10;
+  const $ = (s, el=document) => el.querySelector(s);
+  const el = (tag, attrs={}, ...kids) => { const n = document.createElement(tag);
+    for (const [k,v] of Object.entries(attrs)) { if (k==='class') n.className=v; else if (k==='text') n.textContent=v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v); }
+    for (const k of kids) n.append(k); return n; };
+  function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; }
+  function shuffleNotIdentity(a, same){ if (a.length<2) return a.slice(); let b; let tries=0; do { b=shuffle(a); tries++; } while (same(b) && tries<50); return b; }
+  function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[“”"'’.,;:!?()\[\]]/g,'').replace(/\s+/g,' ').trim(); }
+  const LABELS = {mcq:'🔍 Narrative Detective', order:'🔢 Story Sequencer', match:'🔗 Theme and Character Matcher', path:'🛤️ Choose Your Path', scroll:'📜 Unlock the Scroll', sort:'🗂️ Arrange the Evidence', build:'🧩 Build the Story', reflect:'✍️ Reflection Challenge'};
+  let state;
+  function reset(){ state = {i:0, score:0, results:GAME.challenges.map(()=>null)}; }
+  const max = GAME.challenges.length * POINTS;
+
+  // rules
+  const rules = [
+    `There are ${GAME.challenges.length} challenges, each worth ${POINTS} points (maximum ${max}).`,
+    'Detective questions: 10 points if your single answer is correct.',
+    'Sequencing, matching, sorting and story-building: points in proportion to the items you place correctly; full marks only when the whole response is correct.',
+    'Unlock the Scroll: 10 points on the first try, 6 on the second, 3 on the third. A hint appears after a wrong answer.',
+    'Choose Your Path: 10 points for the response that best fits the course guide, 5 for a partial one, 0 otherwise. Scenarios are hypothetical.',
+    'Reflection: 10 points for completing a response of at least 25 words. Your writing is not graded automatically; compare it with the guidance and model response.',
+    'Answer choices are shuffled every time a challenge appears.'];
+  const rl = $('#rules'); rules.forEach(r => rl.append(el('li',{text:r})));
+
+  function updateHud(){
+    $('#counter').textContent = `Challenge ${Math.min(state.i+1, GAME.challenges.length)} of ${GAME.challenges.length}`;
+    $('#scoreBox').textContent = `Score: ${state.score} / ${max}`;
+    const done = state.results.filter(r=>r!==null).length;
+    const pct = Math.round(100*done/GAME.challenges.length);
+    $('#barFill').style.width = pct+'%';
+    $('.bar').setAttribute('aria-valuenow', pct);
+  }
+  function feedback(box, kind, title, text){
+    box.className = 'fb show ' + kind; box.innerHTML = '';
+    box.append(el('strong',{text:title}));
+    if (Array.isArray(text)) text.forEach(t => box.append(el('div',{text:t}))); else box.append(el('div',{text:text}));
+    box.setAttribute('tabindex','-1'); box.focus({preventScroll:false});
+  }
+  function finish(points, actions){
+    const c = GAME.challenges[state.i];
+    state.results[state.i] = {title:c.title, type:c.type, points};
+    state.score += points; updateHud();
+    actions.innerHTML = '';
+    const last = state.i === GAME.challenges.length - 1;
+    const nb = el('button',{class:'btn', id:'nextBtn', text: last ? 'See my results' : 'Next challenge →'});
+    nb.addEventListener('click', () => { if (last) showResults(); else { state.i++; render(); } });
+    actions.append(nb); nb.focus();
+  }
+
+  function render(){
+    updateHud();
+    const c = GAME.challenges[state.i];
+    const st = $('#stage'); st.innerHTML = '';
+    st.append(el('span',{class:'tag', text: LABELS[c.type] || c.label}));
+    st.append(el('h2',{text:c.title}));
+    st.append(el('p',{class:'src', text:'Source: ' + c.source}));
+    st.append(el('p',{class:'prompt', text:c.prompt}));
+    const body = el('div'); const actions = el('div',{class:'actions'}); const fb = el('div',{class:'fb', role:'status'});
+    st.append(body, actions, fb);
+    ({mcq, order, match, sort, build, scroll, path, reflect})[c.type](c, body, actions, fb);
+    st.querySelector('h2').setAttribute('tabindex','-1'); st.querySelector('h2').focus();
+  }
+
+  function mcq(c, body, actions, fb){
+    const opts = shuffle(c.options.map((t,k)=>({t,k})));
+    const wrap = el('div',{class:'opts', role:'group', 'aria-label':'Answer options'});
+    opts.forEach(o => {
+      const b = el('button',{class:'opt', 'data-key':String(o.k), text:o.t});
+      b.addEventListener('click', () => {
+        wrap.querySelectorAll('button').forEach(x => { x.disabled = true; if (+x.dataset.key === c.answer) x.classList.add('correct'); });
+        const right = o.k === c.answer;
+        if (!right) b.classList.add('wrong'); b.classList.add('picked');
+        feedback(fb, right?'ok':'bad', right?'Correct! +10':'Not quite. +0', c.explain);
+        finish(right?POINTS:0, actions);
+      });
+      wrap.append(b);
+    });
+    body.append(wrap);
+  }
+
+  function order(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'Use the ↑ and ↓ buttons (or drag and drop) to put the items in order, then check your sequence.'}));
+    const items = shuffleNotIdentity(c.items.map((t,k)=>({t,k})), b => b.every((x,i)=>x.k===i));
+    const list = el('ol',{class:'seq'});
+    let dragSrc = null;
+    function draw(){
+      list.innerHTML = '';
+      items.forEach((it, pos) => {
+        const up = el('button',{class:'mv', 'aria-label':`Move “${it.t}” up`, text:'↑'});
+        const dn = el('button',{class:'mv', 'aria-label':`Move “${it.t}” down`, text:'↓'});
+        up.disabled = pos===0 || locked; dn.disabled = pos===items.length-1 || locked;
+        up.addEventListener('click', () => { [items[pos-1],items[pos]]=[items[pos],items[pos-1]]; draw(); list.children[pos-1].querySelectorAll('.mv')[0].focus(); });
+        dn.addEventListener('click', () => { [items[pos+1],items[pos]]=[items[pos],items[pos+1]]; draw(); list.children[pos+1].querySelectorAll('.mv')[1].focus(); });
+        const li = el('li',{draggable: locked?'false':'true', 'data-key':String(it.k)}, el('span',{class:'num', text:String(pos+1)}), el('span',{class:'seqtext', text:it.t}), up, dn);
+        li.addEventListener('dragstart', e => { dragSrc = pos; li.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain', String(pos)); });
+        li.addEventListener('dragend', () => li.classList.remove('dragging'));
+        li.addEventListener('dragover', e => { if (!locked) e.preventDefault(); });
+        li.addEventListener('drop', e => { e.preventDefault(); if (locked || dragSrc===null) return; const [m] = items.splice(dragSrc,1); items.splice(pos,0,m); dragSrc=null; draw(); });
+        if (locked) li.classList.add(it.k===pos?'correct':'wrong');
+        list.append(li);
+      });
+    }
+    let locked = false; draw(); body.append(list);
+    const chk = el('button',{class:'btn', text:'Check my sequence'});
+    chk.addEventListener('click', () => {
+      locked = true; draw();
+      const right = items.filter((it,pos)=>it.k===pos).length;
+      const pts = Math.round(POINTS*right/items.length);
+      const all = right===items.length;
+      feedback(fb, all?'ok':(right>0?'mid':'bad'), all?'Perfect sequence! +10':`${right} of ${items.length} in the right place. +${pts}`,
+        all ? [c.explain] : ['Correct order: ' + c.items.map((t,i)=>`${i+1}. ${t}`).join('  '), c.explain]);
+      finish(pts, actions);
+    });
+    actions.append(chk);
+  }
+
+  function selectRows(c, body, actions, fb, rows, optionsAll, kind){
+    // rows: [{label, answer}] ; options: list of strings
+    const wrap = el('div',{class: kind==='build' ? 'build' : 'rows'});
+    const sels = [];
+    rows.forEach((r, i) => {
+      const id = `sel_${state.i}_${i}`;
+      const sel = el('select',{id});
+      sel.append(el('option',{value:'', text:'— choose —'}));
+      shuffle(optionsAll).forEach(o => sel.append(el('option',{value:o, text:o})));
+      const lbl = el('label',{class:'lbl', for:id, text:r.label});
+      const row = el('div',{class: kind==='build' ? 'slot' : 'row'}, lbl, sel);
+      sels.push({sel, row, r}); wrap.append(row);
+    });
+    body.append(wrap);
+    const chk = el('button',{class:'btn', text: kind==='build' ? 'Check my story map' : (kind==='sort' ? 'Check my sorting' : 'Check my matches')});
+    chk.addEventListener('click', () => {
+      const empty = sels.filter(s => !s.sel.value);
+      if (empty.length){ feedback(fb, 'mid', 'Complete every item first', `${empty.length} item(s) still need a choice. The whole response is checked together.`); empty[0].sel.focus(); return; }
+      let right = 0;
+      sels.forEach(s => { s.sel.disabled = true; const ok = s.sel.value === s.r.answer; if (ok) right++;
+        s.row.classList.add(ok?'correct':'wrong'); if (!ok) s.row.append(el('div',{class:'fix', text:'Correct answer: ' + s.r.answer})); });
+      const pts = Math.round(POINTS*right/sels.length); const all = right===sels.length;
+      feedback(fb, all?'ok':(right>0?'mid':'bad'), all?`All ${sels.length} correct! +10`:`${right} of ${sels.length} correct. +${pts}`, c.explain);
+      finish(pts, actions);
+    });
+    actions.append(chk);
+  }
+  function match(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'Choose the matching answer for every item. Each answer is used once.'}));
+    const rows = shuffle(c.pairs.map(p => ({label:p[0], answer:p[1]})));
+    selectRows(c, body, actions, fb, rows, c.pairs.map(p=>p[1]), 'match');
+  }
+  function sort(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'Assign every item to a category: ' + c.categories.join(' · ') + '.'}));
+    const rows = shuffle(c.items.map(p => ({label:p[0], answer:p[1]})));
+    selectRows(c, body, actions, fb, rows, c.categories, 'sort');
+  }
+  function build(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'Fill each stage of the map from the options. Each option is used once.'}));
+    const rows = c.slots.map(p => ({label:p[0], answer:p[1]}));
+    selectRows(c, body, actions, fb, rows, c.slots.map(p=>p[1]), 'build');
+  }
+
+  function scroll(c, body, actions, fb){
+    const id = 'ans_' + state.i;
+    const inp = el('input',{type:'text', id, autocomplete:'off', 'aria-label':'Your answer'});
+    const hint = el('div',{class:'hint hidden', text:'Hint: ' + c.hint});
+    const tries = el('div',{class:'wc', text:'Attempts left: 3'});
+    body.append(el('label',{for:id, text:'Your answer:'}), inp, tries, hint);
+    let left = 3;
+    const chk = el('button',{class:'btn', text:'Unlock'});
+    const go = () => {
+      const v = norm(inp.value); if (!v) { feedback(fb,'mid','Type an answer first','Enter a word or phrase to unlock the scroll.'); inp.focus(); return; }
+      const ok = c.accept.map(norm).includes(v);
+      if (ok){ const pts = [0,3,6,10][left]; inp.disabled = true; chk.disabled = true;
+        feedback(fb,'ok',`Scroll unlocked! +${pts}`, ['Answer: ' + c.reveal, c.explain]); finish(pts, actions); return; }
+      left--; tries.textContent = 'Attempts left: ' + left; hint.classList.remove('hidden');
+      if (left===0){ inp.disabled = true; chk.disabled = true; feedback(fb,'bad','The scroll stays sealed. +0', ['Answer: ' + c.reveal, c.explain]); finish(0, actions); }
+      else { feedback(fb,'bad','Not yet. Try again.', 'Read the hint and try another answer.'); inp.select(); inp.focus(); }
+    };
+    chk.addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key==='Enter') go(); });
+    actions.append(chk);
+  }
+
+  function path(c, body, actions, fb){
+    body.append(el('div',{class:'notice', text:'This is a hypothetical scenario for practice. It is not an event recorded in the source.'}));
+    const ch = shuffle(c.choices.map((x,k)=>({t:x[0], q:x[1], why:x[2], k})));
+    const wrap = el('div',{class:'opts', role:'group', 'aria-label':'Choices'});
+    ch.forEach(o => {
+      const b = el('button',{class:'opt', 'data-quality':String(o.q), text:o.t});
+      b.addEventListener('click', () => {
+        wrap.querySelectorAll('button').forEach(x => { x.disabled = true; if (+x.dataset.quality===2) x.classList.add('correct'); });
+        b.classList.add('picked'); if (o.q!==2) b.classList.add('wrong');
+        const pts = o.q===2 ? POINTS : (o.q===1 ? 5 : 0);
+        feedback(fb, o.q===2?'ok':(o.q===1?'mid':'bad'), o.q===2?'Wise path! +10':(o.q===1?'A partial path. +5':'This path leads astray. +0'), [o.why, c.explain]);
+        finish(pts, actions);
+      });
+      wrap.append(b);
+    });
+    body.append(wrap);
+  }
+
+  function reflect(c, body, actions, fb){
+    const id = 'ref_' + state.i;
+    const ta = el('textarea',{id, 'aria-label':'Your reflection'});
+    const wc = el('div',{class:'wc', text:'0 words (at least 25 needed)'});
+    body.append(el('label',{for:id, text:'Your reflection:'}), ta, wc);
+    const btn = el('button',{class:'btn', text:'Submit reflection', disabled:'disabled'});
+    ta.addEventListener('input', () => { const n = ta.value.trim().split(/\s+/).filter(Boolean).length; wc.textContent = `${n} words (at least 25 needed)`; btn.disabled = n < 25; });
+    btn.addEventListener('click', () => {
+      ta.readOnly = true; btn.disabled = true;
+      const m = el('div',{class:'model'}, el('strong',{text:'Check your response against this guidance:'}));
+      const ul = el('ul'); c.guidance.forEach(g => ul.append(el('li',{text:g}))); m.append(ul, el('p',{text:c.model}));
+      body.append(m);
+      feedback(fb,'ok','Reflection recorded. +10 for completion', 'Your writing is not graded automatically. Compare it with the guidance above, or share it with your tutor or study group.');
+      finish(POINTS, actions);
+    });
+    actions.append(btn);
+  }
+
+  function showResults(){
+    $('#game').classList.add('hidden');
+    const r = $('#results'); r.classList.remove('hidden'); r.innerHTML = '';
+    const pct = Math.round(100*state.score/max);
+    const rank = GAME.ranks.find(x => pct >= x[0])[1];
+    r.append(el('span',{class:'tag', text:'Mission complete'}), el('h2',{text:GAME.game_title + ': results'}));
+    r.append(el('div',{class:'big', text:`${state.score} / ${max}`}), el('p',{text:`${pct}% of the available points`}), el('p',{class:'rank', text:'Your rank: ' + rank}));
+    const t = el('table',{class:'sum'}); const th = el('tr'); ['Challenge','Activity','Points'].forEach(h=>th.append(el('th',{text:h}))); t.append(th);
+    state.results.forEach(x => { const tr = el('tr'); tr.append(el('td',{text:x.title}), el('td',{text:LABELS[x.type]}), el('td',{text:`${x.points} / ${POINTS}`})); t.append(tr); });
+    r.append(t);
+    const act = el('div',{class:'actions'});
+    const again = el('button',{class:'btn', id:'replayBtn', text:'Play again'});
+    again.addEventListener('click', () => { r.classList.add('hidden'); reset(); $('#game').classList.remove('hidden'); render(); });
+    act.append(again, el('a',{class:'btn secondary', href:'index.html', style:'text-decoration:none', text:'Back to all units'}));
+    r.append(act); r.querySelector('h2').setAttribute('tabindex','-1'); r.querySelector('h2').focus();
+    window.__lastResult = {score: state.score, max, pct, rank};
+  }
+
+  $('#startBtn').addEventListener('click', () => { $('#intro').classList.add('hidden'); reset(); $('#game').classList.remove('hidden'); render(); });
+  reset();
+  window.__game = {get state(){return state;}, max};
+})();
+</script>
+</body>
+</html>
